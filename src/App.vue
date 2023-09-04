@@ -17,7 +17,7 @@
   const deleteGrocery = id => {
     const removeIndex = groceries.value.findIndex(grocery => grocery.id === id)
     groceries.value.splice(removeIndex, 1)
-    confetti({ particleCount: 3000, spread: 8000, origin: { y: 1 } })
+    confetti({ particleCount: 1, spread: 8000, origin: { y: 1 } })
   }
 </script>
 
@@ -26,14 +26,15 @@
     <h1 class="title">Vue Grocery List</h1>
     <form class="newGroceryForm" @click.prevent="addGrocery">
       <input
-        id="newGrocery"
-        autocomplete="off"
-        type="text"
-        placeholder="*Type you item here"
-        v-model="newGrocery"
+      id="newGrocery"
+      autocomplete="off"
+      type="text"
+      placeholder="*Type you item here"
+      v-model="newGrocery"
       />
       <button type="submit">Add</button>
     </form>
+    <h3>Pending Items: {{ groceries.length }}</h3>
       <ul>
         <li v-for="grocery in groceries" @click="deleteGrocery(grocery.id)">
           {{ grocery.name }}
