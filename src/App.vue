@@ -1,19 +1,24 @@
 <script setup>
-import {ref} from 'vue'
+  import { ref } from 'vue'
+  import { useStorage } from '@vueuse/core'
+  import { nanoid } from 'nanoid'
+  import confetti from 'canvas-confetti'
 
-const newGrocery = ref('')
-const groceries = ref([])
+  const newGrocery = ref('')
+  const groceries = useStorage('groceries', [])
 
-const addGrocery = () => {
-  if (newGrocery.value) {
-    groceries.value.push(newGrocery.value)
-    newGrocery.value = ''
+  const addGrocery = () => {
+    if (newGrocery.value) {
+      groceries.value.push({id: nanoid(), name: newGrocery.value})
+      newGrocery.value = ''
+    }
   }
-}
 
-const deleteGrocery = () => {
-  newGrocery.value = 'deleting new grocery'
-}
+  const deleteGrocery = id => {
+    const removeIndex = groceries.value.findIndex(grocery => grocery.id === id)
+    groceries.value.splice(removeIndex, 1)
+    confetti({ particleCount: 3000, spread: 8000, origin: { y: 1 } })
+  }
 </script>
 
 <template>
@@ -30,10 +35,11 @@ const deleteGrocery = () => {
       <button type="submit">Add</button>
     </form>
       <ul>
-        <li @click="remove">{{newGrocery}}</li>
+        <li v-for="grocery in groceries" @click="deleteGrocery(grocery.id)">
+          {{ grocery.name }}
+        </li>
       </ul>
   </main>
-  <pre>{{ groceries }}</pre>
 </template>
 
 <style  scoped>
