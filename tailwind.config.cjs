@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Raleway', ...defaultTheme.fontFamily.sans],
+        sans: ['oboto Mono', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         background: '#292d3e',
